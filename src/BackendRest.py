@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
 import repository as repo
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Sample data (in a real application, this would come from a database)
 #items = [
