@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 import repository as repo
 from flask_cors import CORS
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -15,11 +16,13 @@ items = repo.loadItems()
 # GET endpoint to retrieve all items
 @app.route('/api/items', methods=['GET'])
 def get_items():
+    time.sleep(1)
     return jsonify(items)
 
 # GET endpoint to retrieve a specific item by ID
 @app.route('/api/items/<int:item_id>', methods=['GET'])
 def get_item(item_id):
+    time.sleep(1)
     item = next((item for item in items if item['id'] == item_id), None)
     if item:
         return jsonify(item)
