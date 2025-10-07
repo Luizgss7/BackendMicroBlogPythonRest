@@ -13,6 +13,12 @@ CORS(app)
 #]
 items = repo.loadItems()
 
+def itemExistente(name):
+    for item in items:
+        if item['name'] == name:
+            return True
+    return False    
+
 # GET endpoint to retrieve all items
 @app.route('/api/items', methods=['GET'])
 def get_items():
@@ -32,8 +38,14 @@ def get_item(item_id):
 @app.route('/api/items', methods=['POST'])
 def create_item():
     new_item_data = request.get_json()
-    if not new_item_data or 'name' not in new_item_data or 'price' not in new_item_data:
+    if not new_item_data or 'name' not in new_item_data or 'price' not in new_item_data:    
         return jsonify({"message": "Invalid item data"}), 400
+    if itemExistente(new_item_data['name']):
+        return jsonify({"message": "Item already exists"}), 409
+    try:
+        float(new_item_data['price'])
+    except ValueError:
+        return jsonify({"message": "Preco tem que ser um número"}), 409
 
     new_id = max(item['id'] for item in items) + 1 if items else 1
     new_item = {"id": new_id, "name": new_item_data['name'], "price": new_item_data['price']}
