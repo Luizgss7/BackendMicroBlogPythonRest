@@ -54,4 +54,4 @@ def create_item():
     return jsonify(new_item), 201
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5001)
